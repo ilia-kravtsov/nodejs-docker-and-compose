@@ -14,4 +14,4 @@ RUN npm install --omit=dev
 COPY --from=builder /app/dist ./dist
 RUN npm install -g pm2
 EXPOSE 3001
-CMD ["pm2-runtime", "dist/main.js"]
+CMD ["pm2-runtime", "ecosystem.config.js"]
