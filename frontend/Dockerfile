@@ -7,7 +7,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Production
-FROM nginx:alpine
+FROM nginx:latest
 WORKDIR /usr/share/nginx/html
 # Copy build from Stage 1
 COPY --from=builder /app/build /usr/share/nginx/html
