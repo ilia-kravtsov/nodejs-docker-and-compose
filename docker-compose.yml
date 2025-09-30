@@ -14,7 +14,8 @@ services:
     ports:
       - "4000:3001"   # Внешний порт 4000 -> внутренний порт 3001 контейнера
     depends_on:
-      - database
+      postgres:
+        condition: service_healthy
     networks:
       - kp-network
 
@@ -36,16 +37,21 @@ services:
   # --------------------
   # Database
   # --------------------
-  database:
+  postgres:
     container_name: kupipodariday-db
     image: postgres:15-alpine
     env_file:
       - ./backend/.env  # Загружаю переменные Postgres из бэка
     volumes:
-      - postgres-data:/var/lib/postgresql/data/pgdata
+      - postgres-data:/var/lib/postgresql/data
     networks:
       - kp-network
-
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U student -d kupipodariday"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
 # --------------------
 # Volumes
 # --------------------
