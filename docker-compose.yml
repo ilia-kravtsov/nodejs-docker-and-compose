@@ -10,9 +10,9 @@ services:
     env_file:
       - ./backend/.env
     ports:
-      - "4000:3001"   # Внешний порт 4000 -> внутренний порт 3001 контейнера
+      - "4000:3001"
     depends_on:
-      postgres:
+      database:
         condition: service_healthy
     networks:
       - kp-network
@@ -26,7 +26,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "8081:80"     # Внешний порт 8081 -> Nginx порт 80
+      - "8081:80"
     depends_on:
       - backend
     networks:
@@ -35,7 +35,7 @@ services:
   # --------------------
   # Database
   # --------------------
-  postgres:
+  database:
     container_name: kupipodariday-db
     image: postgres:15-alpine
     env_file:
